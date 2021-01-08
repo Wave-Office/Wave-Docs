@@ -152,7 +152,7 @@ select {
     margin-bottom: 0;
     font-size: 16px;
 }
-#page > a {
+a {
     color: crimson;
     cursor: pointer;
 }
