@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Docs</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <meta name="theme-color" content="white"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png">
+        <link rel='icon' href='Favicon/favicon.ico' type='image/x-icon'>
+
+        <link rel="stylesheet" type="text/css" href="style.css" >
+        <!--<link rel="manifest" href="manifest.json">-->
+    </head>
+    <body>
+        <div id="modal" class="modal">
+            <div id="modal-content">
+              <span class="close-modal">&times;</span>
+              <p id="modal-text"></p>
+            </div>
+          </div>
+        <div id="wrapper">
+            <div id="top-bar">
+                <span title="Wave Docs"><img src="files/wave docs.svg" width="15px"></span>
+                <span id="file">File</span>
+                <span id="edit" onclick="srbon('edit')">Edit</span>
+                <span id="home" onclick="srbon('home')">Home</span>
+                <span id="share" onclick="srbon('share')">Share</span>
+                <span id="help" onclick="srbon('help')">Help</span>
+                <span id="browser" onclick="srbon('browser')">Browser</span>
+                <span><input type="text" id="files-name" placeholder="Files Name" title="Filename"></span>
+            </div>
+            <div id="ribbon">
+                <div class="rbon" id="r-ribx" hide="yes">{RIBBON-X}=Special development ribbon</div>
+                <div class="rbon" id="r-edit" hide="yes">
+                    <div>
+                        <span data-action="undo" title="undo" onmouseup="execCode(this)"><img src="files/icons/undo.svg" style="width: 15px;"></span>
+                        <span data-action="redo" title="redo" onmouseup="execCode(this)"><img src="files/icons/redo.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="cut" title="cut" onmouseup="execCode(this)"><img src="files/icons/cut.svg" style="width: 15px;"></span>
+                        <span data-action="copy" title="copy" onmouseup="execCode(this)"><img src="files/icons/copy.svg" style="width: 15px;"></span>
+                        <span data-action="paste" title="paste" onmouseup="execCode(this)"><img src="files/icons/paste.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="read_mode" title="read mode" onmouseup="execCode(this)"><img src="files/icons/read_mode.svg" style="width: 15px;"></span>
+                    </div>
+                </div>
+                <div id="file-menu" class="hide-menu">
+                    <div onclick="savetofile()">Save</div>
+                    <div onclick="openfile()">Open</div>
+                    <div onclick="window.open(window.location.href)">New</div>
+                </div>
+                <div class="rbon" id="r-home" hide="no" style="font-family: serif;">
+                    <div>
+                        <select name="font" id="font" onchange="setfont()">
+                            <option value="Arial">Arial</option>
+                            <option value="Brush Script MT">Brush Script MT</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Garamond">Garamond</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="default">System Default</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Verdana">Verdana</option>
+                        </select>
+                        <input type="number" id="font-size" min="1" max="7" onchange="setfontsize()">
+                    </div>
+                    <div>
+                        <span data-action="bold" title="Bold" onmouseup="execCode(this)"><img src="files/icons/bold.svg" style="width: 15px;"></span>
+                        <span data-action="italic" title="Italic" onmouseup="execCode(this)"><img src="files/icons/italic.svg" style="width: 15px;"></span>
+                        <span data-action="underline" title="underline" onmouseup="execCode(this)"><img src="files/icons/underline.svg" style="width: 15px;"></span>
+                        <span data-action="strikethrough" title="strikethrough" onmouseup="execCode(this)"><img src="files/icons/strikethrough.svg" style="width: 15px;"></span>
+                        <span data-action="subscript" title="subscript" onmouseup="execCode(this)"><img src="files/icons/subscript.svg" style="width: 15px;"></span>
+                        <span data-action="superscript" title="superscript" onmouseup="execCode(this)"><img src="files/icons/superscript.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="justifyLeft" title="align left" onmouseup="execCode(this)"><img src="files/icons/align_left.svg" style="width: 15px;"></span>
+                        <span data-action="justifyCenter" title="align center" onmouseup="execCode(this)"><img src="files/icons/align_center.svg" style="width: 15px;"></span>
+                        <span data-action="justifyFull" title="justify" onmouseup="execCode(this)"><img src="files/icons/align_justify.svg" style="width: 15px;"></span>
+                        <span data-action="justifyRight" title="align right" onmouseup="execCode(this)"><img src="files/icons/align_right.svg" style="width: 15px;"></span>
+                        <span data-action="indent" title="indent" onmouseup="execCode(this)"><img src="files/icons/outdent.svg" style="width: 15px;"></span>
+                        <span data-action="outdent" title="outdent" onmouseup="execCode(this)"><img src="files/icons/indent.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="insertHorizontalRule" title="insert horizontal rule" onmouseup="execCode(this)"><img src="files/icons/dash.svg" style="width: 15px;"></span>
+                        <span data-action="insertParagraph" title="paragraph" onmouseup="execCode(this)"><img src="files/icons/paragraph.svg" style="width: 15px;"></span>
+                        <span data-action="code" title="code" onmouseup="execCode(this)"><img src="files/icons/code.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="link" title="add link" onmouseup="execCode(this)"><img src="files/icons/link.svg" style="width: 15px;"></span>
+                        <span data-action="addimg" title="add image" onmouseup="execCode(this)"><img src="files/icons/add_img.svg" style="width: 15px;"></span>
+                        <span data-action="addvid" title="add video" onmouseup="execCode(this)"><img src="files/icons/add_vid.svg" style="width: 15px;"></span>
+                        <span data-action="iframe" title="add iframe" onmouseup="execCode(this)"><img src="files/icons/web_frame.svg" style="width: 15px;"></span>
+                    </div>
+                </div>
+                <div class="rbon" id="r-help" hide="yes">help</div>
+                <div class="rbon" id="r-share" hide="yes">share</div>
+                <div class="rbon" id="r-browser" hide="yes">browser</div>
+            </div>
+            <div id="page-holder">
+                <div contenteditable="true" id="page"></div>
+                <textarea disabled width="100%" height="100%" id="html-output"></textarea>
+            </div>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
