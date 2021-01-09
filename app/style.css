@@ -33,7 +33,10 @@ body {
     padding: 5px;
     border-radius: 5px;
     background-color: lightgrey;
-    overflow-y: hidden;
+    overflow-y: scroll;
+}
+#wrapper::-webkit-scrollbar {
+    display: none;
 }
 #top-bar {
     box-shadow: 0 0 10px lightgrey;
@@ -174,17 +177,21 @@ pre {
     background-color: white;
     padding: 5px;
     border: 1px solid lightgrey;
-    min-width: 100px;
+    min-width: 30%;
+    max-width: 50%;
 }
-#file-menu > div {
+#file-menu > div > div {
     opacity: 0.7;
     border-radius: 1px;
 }
-#file-menu > div:not(:first-child) {
+#file-menu > div > div:not(:first-child) {
     border-top: 1px solid grey;
 }
-#file-menu > div:hover {
+#file-menu > div > div:hover {
     opacity: 1;
+}
+.menu-opt[hide="yes"] {
+    display: none;
 }
 .hide-menu {
     display: none;

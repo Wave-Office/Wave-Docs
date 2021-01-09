@@ -1,0 +1,61 @@
+{
+    "manifest_version": 2,
+    "name": "Wave Docs Editor",
+    "short_name": "Wave Docs",
+    "start_url": "index.html",
+    "display": "fullscreen",
+    "background_color": "#00ff7f",
+    "theme_color": "#00ff7f",
+    "orientation": "any",
+    "shortcuts": [
+        {
+          "name": "New Document",
+          "short_name": "New Doc",
+          "description": "create a new document",
+          "url": "/",
+          "icons": [{ "src": "Favicon/android-chrome-192x192.png", "sizes": "192x192" }]
+        }
+    ],
+    "icons": [
+        {
+            "src": "Favicon/android-chrome-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "Favicon/apple-touch-icon.png",
+            "type": "image/png",
+            "sizes": "180x180"
+        },
+        {
+            "src": "Favicon/android-chrome-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "Favicon/favicon-16x16.png",
+            "type": "image/png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "Favicon/favicon-32x32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "Favicon/favicon.ico",
+            "type": "image/ico",
+            "sizes": "48x48"
+        },
+        {
+            "src": "Favicon/maskable_icon.png",
+            "sizes": "682x682",
+            "type": "image/png",
+            "purpose": "any maskable"
+          }
+    ],
+    "url": "",
+    "lang": "English",
+    "screenshots": [],
+    "description": "Wave Docs Editor in browser"
+}

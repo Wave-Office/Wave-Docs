@@ -22,7 +22,7 @@
           </div>
         <div id="wrapper">
             <div id="top-bar">
-                <span title="Wave Docs"><img src="files/wave docs.svg" width="15px"></span>
+                <span title="Wave Docs" id="wave-app"><img src="files/wave docs.svg" width="15px"></span>
                 <span id="file">File</span>
                 <span id="edit" onclick="srbon('edit')">Edit</span>
                 <span id="home" onclick="srbon('home')">Home</span>
@@ -48,9 +48,15 @@
                     </div>
                 </div>
                 <div id="file-menu" class="hide-menu">
-                    <div onclick="savetofile()">Save</div>
-                    <div onclick="openfile()">Open</div>
-                    <div onclick="window.open(window.location.href)">New</div>
+                    <div id="file-opt" hide="no" class="menu-opt">
+                        <div onclick="savetofile()" title="save file to disk"><img src="files/icons/save.svg" style="width: 15px;">Save</div>
+                        <div onclick="openfile()" title="open file from disk"><img src="files/icons/upload.svg" style="width: 15px;">Open</div>
+                        <div onclick="window.open(window.location.href)" title="open new editor"><img src="files/icons/new.svg" style="width: 15px;">New</div>
+                    </div>
+                    <div id="app-opt" hide="yes" class="menu-opt">
+                        <div title="Wave Docs"><img src="files/wave docs.svg" width="15px">Wave Docs</div>
+                        <div>Description: Wave Docs is a document Editor in your browser.</div>
+                    </div>
                 </div>
                 <div class="rbon" id="r-home" hide="no" style="font-family: serif;">
                     <div>
@@ -67,7 +73,15 @@
                             <option value="Trebuchet MS">Trebuchet MS</option>
                             <option value="Verdana">Verdana</option>
                         </select>
-                        <input type="number" id="font-size" min="1" max="7" onchange="setfontsize()">
+                        <select name="font" id="font-size" onchange="setfontsize()">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
                     </div>
                     <div>
                         <span data-action="bold" title="Bold" onmouseup="execCode(this)"><img src="files/icons/bold.svg" style="width: 15px;"></span>
@@ -91,6 +105,7 @@
                         <span data-action="code" title="code" onmouseup="execCode(this)"><img src="files/icons/code.svg" style="width: 15px;"></span>
                         <span data-action="insertOrderedList" title="insert orderd list" onmouseup="execCode(this)"><img src="files/icons/orderd_list.svg" style="width: 15px;"></span>
                         <span data-action="insertUnorderedList" title="insert unordered list" onmouseup="execCode(this)"><img src="files/icons/unorderd_list.svg" style="width: 15px;"></span>
+                        <span data-action="heading" title="insert heading" onmouseup="execCode(this)"><img src="files/icons/font_size.svg" style="width: 15px;"></span>
                     </div>
                     <div>
                         <span data-action="link" title="add link" onmouseup="execCode(this)"><img src="files/icons/link.svg" style="width: 15px;"></span>
@@ -100,13 +115,24 @@
                     </div>
                 </div>
                 <div class="rbon" id="r-help" hide="yes">help</div>
-                <div class="rbon" id="r-share" hide="yes">share</div>
-                <div class="rbon" id="r-browser" hide="yes">browser</div>
+                <div class="rbon" id="r-share" hide="yes">
+                    <div>
+                        <span data-action="share" title="share" onmouseup="execCode(this)" id="share-btn"><img src="files/icons/share.svg" style="width: 15px;"></span>
+                        <!--<span data-action="email" title="email" onmouseup="email()"><img src="files/icons/email.svg" style="width: 15px;"></span>-->
+                        <span onclick="savetofile()" title="save file to disk"><img src="files/icons/save.svg" style="width: 15px;"></span>
+                    </div>
+                </div>
+                <div class="rbon" id="r-browser" hide="yes">
+                    <div>
+                        <span data-action="full" title="full screen" onmouseup="execCode(this)"><img src="files/icons/full.svg" style="width: 15px;"></span>
+                    </div>
+                </div>
             </div>
             <div id="page-holder">
                 <div contenteditable="true" id="page"></div>
                 <textarea disabled width="100%" height="100%" id="html-output"></textarea>
             </div>
+            <div id="email" style="display: none;"></div>
         </div>
         <script src="app.js"></script>
     </body>
