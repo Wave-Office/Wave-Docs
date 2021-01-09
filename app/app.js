@@ -7,7 +7,7 @@ document.getElementById("font-size").value = 2
 resizewrap()
 setfont()
 document.execCommand('styleWithCSS', false, true);
-if ("canShare" in navigator) {
+if (!"canShare" in navigator) {
     document.getElementById("share-btn").style.display = "none"
 }
 var modal = document.getElementById("modal");
