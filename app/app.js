@@ -1,6 +1,7 @@
 window.onresize = function() {
     resizewrap()
 }
+var curfile
 const page = document.getElementById("page")
 var full = false
 document.getElementById("font-size").value = 2
@@ -248,16 +249,20 @@ function uploadfile(that) {
         };
         reader.readAsText(that.files[0]);
     }
-    document.getElementById("files-name").value = that.files[0].name.substr(0, that.files[0].name.length - 5) 
+    document.getElementById("files-name").value = that.files[0].name.substr(0, that.files[0].name.length - 5)
+    console.log(that.files[0])
+    curfile = that.files[0]
 }
 function share() {
     const blob = new Blob([page.innerHTML], { type: 'text/plain' });
     const filesArray = new File([blob], document.getElementById("files-name").value + ".wdoc", {
         type: "text/plain",
     });
+    //console.log(filesArray)
+    //console.log(blob)
     if (navigator.canShare) {
         navigator.share({
-            files: filesArray,
+            files: [filesArray],
             title: document.getElementById("files-name").value,
             text: 'A Wave Doc file made with "wave-office.github.io/Wave-Docs/app/"',
         })
