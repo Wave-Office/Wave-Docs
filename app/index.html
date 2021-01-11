@@ -60,28 +60,30 @@
                 </div>
                 <div class="rbon" id="r-home" hide="no" style="font-family: serif;">
                     <div>
-                        <select name="font" id="font" onchange="setfont()">
-                            <option value="Arial">Arial</option>
-                            <option value="Brush Script MT">Brush Script MT</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Garamond">Garamond</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Helvetica">Helvetica</option>
-                            <option value="default">System Default</option>
-                            <option value="Tahoma">Tahoma</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Trebuchet MS">Trebuchet MS</option>
-                            <option value="Verdana">Verdana</option>
-                        </select>
-                        <select name="font" id="font-size" onchange="setfontsize()">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                        </select>
+                        <div id="font-selector" class="hide">
+                            <div data-value="Arial" onclick="setfont(this)">Arial</div>
+                            <div data-value="Brush Script MT" onclick="setfont(this)">Brush Script MT</div>
+                            <div data-value="Courier New" onclick="setfont(this)">Courier New</div>
+                            <div data-value="Garamond" onclick="setfont(this)">Garamond</div>
+                            <div data-value="Georgia" onclick="setfont(this)">Georgia</div>
+                            <div data-value="Helvetica" onclick="setfont(this)">Helvetica</div>
+                            <div data-value="default" onclick="setfont(this)">System Default</div>
+                            <div data-value="Tahoma" onclick="setfont(this)">Tahoma</div>
+                            <div data-value="Times New Roman" onclick="setfont(this)">Times New Roman</div>
+                            <div data-value="Trebuchet MS" onclick="setfont(this)">Trebuchet MS</div>
+                            <div data-value="Verdana" onclick="setfont(this)">Verdana</div>
+                        </div>
+                        <button id="font-btn">Arial</button>
+                        <div name="font-size" id="font-size-sel" class="hide">
+                            <div data-value="1" onclick="setfontsize(this)">1</div>
+                            <div data-value="2" onclick="setfontsize(this)">2</div>
+                            <div data-value="3" onclick="setfontsize(this)">3</div>
+                            <div data-value="4" onclick="setfontsize(this)">4</div>
+                            <div data-value="5" onclick="setfontsize(this)">5</div>
+                            <div data-value="6" onclick="setfontsize(this)">6</div>
+                            <div data-value="7" onclick="setfontsize(this)">7</div>
+                        </div>
+                        <button id="font-size-btn">2</button>
                     </div>
                     <div>
                         <span data-action="bold" title="Bold" onmouseup="execCode(this)"><img src="files/icons/bold.svg" style="width: 15px;"></span>
@@ -117,7 +119,7 @@
                 <div class="rbon" id="r-help" hide="yes">help</div>
                 <div class="rbon" id="r-share" hide="yes">
                     <div>
-                        <span data-action="share" title="share" onmouseup="execCode(this)" id="share-btn"><img src="files/icons/share.svg" style="width: 15px;"></span>
+                        <!--<span data-action="share" title="share" onmouseup="execCode(this)" id="share-btn"><img src="files/icons/share.svg" style="width: 15px;"></span>-->
                         <!--<span data-action="email" title="email" onmouseup="email()"><img src="files/icons/email.svg" style="width: 15px;"></span>-->
                         <span onclick="savetofile()" title="save file to disk"><img src="files/icons/save.svg" style="width: 15px;"></span>
                     </div>

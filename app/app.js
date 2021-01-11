@@ -4,12 +4,16 @@ window.onresize = function() {
 var curfile
 const page = document.getElementById("page")
 var full = false
-document.getElementById("font-size").value = 2
 resizewrap()
-setfont()
 document.execCommand('styleWithCSS', false, true);
 if (!"canShare" in navigator) {
     document.getElementById("share-btn").style.display = "none"
+}
+document.getElementById("font-btn").onclick = function() {
+    document.getElementById("font-selector").classList.toggle("hide")
+}
+document.getElementById("font-size-btn").onclick = function() {
+    document.getElementById("font-size-sel").classList.toggle("hide")
 }
 var modal = document.getElementById("modal");
 var modal_text = document.getElementById("modal-text");
@@ -26,9 +30,9 @@ document.getElementById("wave-app").onclick = function() {
 }
 document.body.onkeydown = function(event) {
     //console.log(event.keyCode)
-    if (event.keyCode === 73 && event.shiftKey === true && event.ctrlKey === true) {
+    /*if (event.keyCode === 73 && event.shiftKey === true && event.ctrlKey === true) {
         event.preventDefault()
-    } else if (event.keyCode === 83 && event.ctrlKey === true) {
+    } else*/ if (event.keyCode === 83 && event.ctrlKey === true) {
         event.preventDefault()
         savetofile()
     }
@@ -59,27 +63,27 @@ function srbon(openr) {
     document.querySelector(".rbon[hide=no]").setAttribute("hide", "yes")
     document.getElementById(openri).setAttribute("hide", "no")
 }
-function setfont() {
-    var font = document.getElementById("font").value
+function setfont(that) {
+    document.getElementById("font-selector").classList.toggle("hide")
+    var font = that.dataset.value
     if (font == "default") {
         font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
     }
     document.execCommand('fontName', false, font);
+    document.getElementById("font-btn").innerHTML = that.dataset.value
 }
-function setfontsize() {
-    var size = parseInt(document.getElementById("font-size").value) * 10
-    if (size > 70) {
-        document.getElementById("font-size").value = 7
-    } else if (size < 10) {
-        document.getElementById("font-size").value = 1
-    }
-    //document.getElementById("page").style.fontSize = size + "px"
-    document.execCommand("fontSize", false, size / 10);
+function setfontsize(that) {
+    document.getElementById("font-size-sel").classList.toggle("hide")
+    var size = that.dataset.value
+    document.execCommand("fontSize", false, size);
     var fontElements = document.getElementsByTagName("font");
+    /*
     for (var i = 0, len = fontElements.length; i < len; ++i) {
         fontElements[i].removeAttribute("size");
-        fontElements[i].style.fontSize = size;
+        fontElements[i].style.fontSize = size * 10;
     }
+    */
+    document.getElementById("font-size-btn").innerHTML = that.dataset.value
 }
 function execCode(that, value) {
     if(that.dataset.action == "code") {
@@ -255,14 +259,14 @@ function uploadfile(that) {
 }
 function share() {
     const blob = new Blob([page.innerHTML], { type: 'text/plain' });
-    const filesArray = new File([blob], document.getElementById("files-name").value + ".wdoc", {
-        type: "text/plain",
-    });
+    const filesArray = [new File([blob], document.getElementById("files-name").value +  ".wdoc", {//document.getElementById("files-name").value + 
+        type: "text/plain", lastModified: Date.now()
+    })];
     //console.log(filesArray)
     //console.log(blob)
     if (navigator.canShare) {
         navigator.share({
-            files: [filesArray],
+            files: filesArray,
             title: document.getElementById("files-name").value,
             text: 'A Wave Doc file made with "wave-office.github.io/Wave-Docs/app/"',
         })
