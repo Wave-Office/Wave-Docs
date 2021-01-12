@@ -29,7 +29,7 @@
                 <span id="share" onclick="srbon('share')">Share</span>
                 <span id="help" onclick="srbon('help')">Help</span>
                 <span id="browser" onclick="srbon('browser')">Browser</span>
-                <span><input type="text" id="files-name" placeholder="Files Name" title="Filename"></span>
+                <span><input type="text" id="files-name" placeholder="File Name" title="Filename"></span>
             </div>
             <div id="ribbon">
                 <div class="rbon" id="r-ribx" hide="yes">{RIBBON-X}=Special development ribbon</div>
@@ -114,6 +114,7 @@
                         <span data-action="addimg" title="add image" onmouseup="execCode(this)"><img src="files/icons/add_img.svg" style="width: 15px;"></span>
                         <span data-action="addvid" title="add video" onmouseup="execCode(this)"><img src="files/icons/add_vid.svg" style="width: 15px;"></span>
                         <span data-action="iframe" title="add iframe" onmouseup="execCode(this)"><img src="files/icons/web_frame.svg" style="width: 15px;"></span>
+                        <span data-action="textarea" title="add TextArea" onmouseup="execCode(this)"><img src="files/icons/textarea.svg" style="width: 15px;"></span>
                     </div>
                 </div>
                 <div class="rbon" id="r-help" hide="yes">help</div>
@@ -126,16 +127,56 @@
                 </div>
                 <div class="rbon" id="r-browser" hide="yes">
                     <div>
-                        <span data-action="full" title="full screen" onmouseup="execCode(this)"><img src="files/icons/full.svg" style="width: 15px;"></span>
+                        <span data-action="full" title="full screen" onmouseup="execCode(this)"><img src="files/icons/fullscreen.svg" style="width: 15px;"></span>
                     </div>
                 </div>
             </div>
             <div id="page-holder">
+                <div id="con-menu" class="hide-menu">
+                    <div>
+                        <span data-action="bold" title="Bold" onmouseup="execCode(this)"><img src="files/icons/bold.svg" style="width: 15px;"></span>
+                        <span data-action="italic" title="Italic" onmouseup="execCode(this)"><img src="files/icons/italic.svg" style="width: 15px;"></span>
+                        <span data-action="underline" title="underline" onmouseup="execCode(this)"><img src="files/icons/underline.svg" style="width: 15px;"></span>
+                        <span data-action="strikethrough" title="strikethrough" onmouseup="execCode(this)"><img src="files/icons/strikethrough.svg" style="width: 15px;"></span>
+                        <span data-action="subscript" title="subscript" onmouseup="execCode(this)"><img src="files/icons/subscript.svg" style="width: 15px;"></span>
+                        <span data-action="superscript" title="superscript" onmouseup="execCode(this)"><img src="files/icons/superscript.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="justifyLeft" title="align left" onmouseup="execCode(this)"><img src="files/icons/align_left.svg" style="width: 15px;"></span>
+                        <span data-action="justifyCenter" title="align center" onmouseup="execCode(this)"><img src="files/icons/align_center.svg" style="width: 15px;"></span>
+                        <span data-action="justifyFull" title="justify" onmouseup="execCode(this)"><img src="files/icons/align_justify.svg" style="width: 15px;"></span>
+                        <span data-action="justifyRight" title="align right" onmouseup="execCode(this)"><img src="files/icons/align_right.svg" style="width: 15px;"></span>
+                        <span data-action="indent" title="indent" onmouseup="execCode(this)"><img src="files/icons/outdent.svg" style="width: 15px;"></span>
+                        <span data-action="outdent" title="outdent" onmouseup="execCode(this)"><img src="files/icons/indent.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="insertHorizontalRule" title="insert horizontal rule" onmouseup="execCode(this)"><img src="files/icons/dash.svg" style="width: 15px;"></span>
+                        <span data-action="insertParagraph" title="paragraph" onmouseup="execCode(this)"><img src="files/icons/paragraph.svg" style="width: 15px;"></span>
+                        <span data-action="code" title="code" onmouseup="execCode(this)"><img src="files/icons/code.svg" style="width: 15px;"></span>
+                        <span data-action="insertOrderedList" title="insert orderd list" onmouseup="execCode(this)"><img src="files/icons/orderd_list.svg" style="width: 15px;"></span>
+                        <span data-action="insertUnorderedList" title="insert unordered list" onmouseup="execCode(this)"><img src="files/icons/unorderd_list.svg" style="width: 15px;"></span>
+                        <span data-action="heading" title="insert heading" onmouseup="execCode(this)"><img src="files/icons/font_size.svg" style="width: 15px;"></span>
+                    </div>
+                    <div>
+                        <span data-action="link" title="add link" onmouseup="execCode(this)"><img src="files/icons/link.svg" style="width: 15px;"></span>
+                        <span data-action="addimg" title="add image" onmouseup="execCode(this)"><img src="files/icons/add_img.svg" style="width: 15px;"></span>
+                        <span data-action="addvid" title="add video" onmouseup="execCode(this)"><img src="files/icons/add_vid.svg" style="width: 15px;"></span>
+                        <span data-action="iframe" title="add iframe" onmouseup="execCode(this)"><img src="files/icons/web_frame.svg" style="width: 15px;"></span>
+                        <span data-action="textarea" title="add TextArea" onmouseup="execCode(this)"><img src="files/icons/textarea.svg" style="width: 15px;"></span>
+                    </div>
+                </div>
                 <div contenteditable="true" id="page"></div>
                 <textarea disabled width="100%" height="100%" id="html-output"></textarea>
             </div>
             <div id="email" style="display: none;"></div>
         </div>
         <script src="app.js"></script>
+        <script>
+            if('serviceWorker' in navigator) {
+              navigator.serviceWorker
+                       .register('sw.js')
+                       .then(function() { console.log("Service Worker Registered"); });
+            }
+        </script>
     </body>
 </html>

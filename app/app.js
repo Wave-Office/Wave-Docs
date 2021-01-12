@@ -1,6 +1,7 @@
 window.onresize = function() {
     resizewrap()
 }
+var caret
 var curfile
 const page = document.getElementById("page")
 var full = false
@@ -36,6 +37,18 @@ document.body.onkeydown = function(event) {
         event.preventDefault()
         savetofile()
     }
+}
+page.oncontextmenu = function(event) {
+    event.preventDefault()
+    document.getElementById("con-menu").style.left = event.pageX + "px";
+    document.getElementById("con-menu").style.top = event.pageY - 45 + "px";
+    document.getElementById("con-menu").style.display = "block"
+}
+document.getElementById("con-menu").onclick = function(event) {
+    event.stopPropagation();
+}
+document.onclick = function(event) {
+    document.getElementById("con-menu").style.display = "none"
 }
 page.focus()
 function openmodal(inner) {
@@ -104,6 +117,8 @@ function execCode(that, value) {
         share()
     } else if(that.dataset.action == "full") {
         Full()
+    } else if(that.dataset.action == "textarea") {
+        document.execCommand('insertHTML', false, "<div id='textarea' contenteditable='true' placeholder='TextArea'></div>");
     } else {
         execCodeformat(that.dataset.action, value)
     }
@@ -120,6 +135,7 @@ function addheading() {
         openmodal("<br><br><br>Heading is not supported in your browser")
     }
 }
+var thecaret
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -127,40 +143,81 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = error => reject(error);
 });
 function addimg() {
+    thecaret = caret
     openmodal(`
     <div style="text-align: center;">
-    <br><br><br><br><br>
+    <br><br><br><br>
     <label style="border: 1px solid lightgrey; cursor: pointer; padding: 10px;">
     Upload Image<img src="files/icons/add_img.svg" style="width: 15px;">
     <input type="file" style="visibility: hidden; width: 0;" id="img-file" accept="image/*" onchange="addimage()">
     </label>
+    <br>
+    <br>
+    or
+    <br>
+    <br>
+    <input type="url" placeholder="URL to Image" style="border: 1px solid lightgrey; padding: 5px;" id="img-url">
     </div>
     `)
+    document.getElementById("img-url").onkeypress = function(e) {
+        if(e.keyCode === 13) {
+            addurlimg()
+        }
+    }
 }
 async function addimage() {
     closethemodal()
     const imgfile = document.querySelector('#img-file').files[0];
     var img = await toBase64(imgfile)
-    page.focus()
+    page.focus
+    selectRange(thecaret)
     document.execCommand('insertHTML', false, "<img width='100%' src='" + img  + "'>");
 }
-async function addvideo() {
+function addurlimg() {
     closethemodal()
-    const vidfile = document.querySelector('#vid-file').files[0];
-    var vid =  await toBase64(vidfile)
-    page.focus()
-    document.execCommand('insertHTML', false, "<video width='100%' controls><source src='" + vid  + "'>Your Browser Dosn't Support Video</video>");
+    const img = document.querySelector('#img-url').value;
+    page.focus
+    selectRange(thecaret)
+    document.execCommand('insertHTML', false, "<img width='100%' src='" + img  + "'>");
 }
 function addvid() {
+    thecaret = caret
     openmodal(`
         <div style="text-align: center;">
-        <br><br><br><br><br>
+        <br><br><br><br>
         <label style="border: 1px solid lightgrey; cursor: pointer; padding: 10px;">
         Upload Video<img src="files/icons/add_vid.svg" style="width: 15px;">
         <input type="file" style="visibility: hidden; width: 0;" id="vid-file" accept="video/*" onchange="addvideo()">
         </label>
+        <br>
+        <br>
+        or
+        <br>
+        <br>
+        <input type="url" placeholder="URL to Video" style="border: 1px solid lightgrey; padding: 5px;" id="vid-url">
+        </div>
         </div>
         `)
+        document.getElementById("vid-url").onkeypress = function(e) {
+            if(e.keyCode === 13) {
+                addurlvid()
+            }
+        }
+}
+
+async function addvideo() {
+    closethemodal()
+    const vidfile = document.querySelector('#vid-file').files[0];
+    var vid =  await toBase64(vidfile)
+    selectRange(thecaret)
+    document.execCommand('insertHTML', false, "<video width='100%' controls><source src='" + vid  + "'>Your Browser Dosn't Support Video</video>");
+}
+function addurlvid() {
+    closethemodal()
+    const vid = document.querySelector('#vid-url').value;
+    page.focus()
+    selectRange(thecaret)
+    document.execCommand('insertHTML', false, "<video width='100%' controls><source src='" + vid  + "'>Your Browser Dosn't Support Video</video>");
 }
 
 function addiframe() {
@@ -170,17 +227,20 @@ function addiframe() {
 function readMode() {
     if (page.contentEditable == "true") {
         page.contentEditable = "false"
+        document.querySelector("[data-action=read_mode]").querySelector("img").src = "files/icons/edit_mode.svg"
     } else if (page.contentEditable == "false") {
         page.contentEditable = "true"
+        document.querySelector("[data-action=read_mode]").querySelector("img").src = "files/icons/read_mode.svg"
     }
 }
 setInterval(function() {
     document.getElementById("html-output").value = page.innerHTML
     document.querySelector("title").innerHTML = "Wave Docs | " + document.getElementById("files-name").value
-}, 500)
+    caret = getCaretPosition().start
+}, 50)
 async function savetofile() {
     if (document.getElementById("files-name").value == "") {
-        openmodal("<h1>Unable To Save</h1><p>we can not svae the file because there is no name of the file</p>")
+        openmodal("<h1>Unable To Save</h1><p>we can not save the file because there is no name of the file</p>")
         document.getElementById("files-name").focus()
     } else {
         if ("showSaveFilePicker" in window) {
@@ -291,6 +351,7 @@ function Full() {
           } else if (elem.msRequestFullscreen) { /* IE/Edge */
             elem.msRequestFullscreen();
           }
+          document.querySelector("[data-action=full]").querySelector("img").src = "files/icons/exit_fullscreen.svg"
           full = true
     } else {
         if (document.exitFullscreen) {
@@ -302,6 +363,50 @@ function Full() {
           } else if (document.msExitFullscreen) { /* IE/Edge */
             document.msExitFullscreen();
           }
+          document.querySelector("[data-action=full]").querySelector("img").src = "files/icons/fullscreen.svg"
           full = false
         }
+}
+function getCaretPosition() {
+    var start = 0;
+    var end = 0;
+    var doc = page.ownerDocument || page.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = win.getSelection().getRangeAt(0);
+            var preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(page);
+            preCaretRange.setEnd(range.startContainer, range.startOffset);
+            start = preCaretRange.toString().length;
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            end = preCaretRange.toString().length;
+        }
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToStart", textRange);
+        start = preCaretTextRange.text.length;
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        end = preCaretTextRange.text.length;
+    }
+    return { start: start, end: end };
+}
+function selectRange(pos) {
+    page.focus();
+    if (typeof page.selectionStart != "undefined") {
+        page.selectionStart = pos;
+        page.selectionEnd = pos + 1;
+    } else if (document.selection && document.selection.createRange) {
+        // IE branch
+        page.select();
+        var range = document.selection.createRange();
+        range.collapse(true);
+        range.moveEnd("character", pos);
+        range.moveStart("character", pos);
+        range.select();
+    }
 }

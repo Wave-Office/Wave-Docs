@@ -211,6 +211,17 @@ input[type="number"] {
     margin-bottom: 0;
     font-size: 16px;
 }
+#page > #textarea {
+    display: block;
+    min-height: 200px;
+    width: 100%;
+    padding: 5px;
+    background-color: rgba(245, 245, 245);
+    overflow: visible;
+}
+#page > #textarea:empty:before {
+    content: "TextArea";
+}
 a {
     color: crimson;
     cursor: pointer;
@@ -224,6 +235,43 @@ pre {
     top: 50%;
     left: 40vw;
     z-index: -1;
+    display: none;
+}
+#con-menu {
+    display: inline-block;
+    position: absolute;
+    background-color: rgb(245, 245, 245);
+    box-shadow: 5px 5px 5px lightgrey;
+    border-radius: 3px;
+    padding: 5px;
+    overflow-x: scroll;
+    width: 20%;
+}
+#con-menu::-webkit-scrollbar {
+    height: 5px;
+}
+#con-menu > div {
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    padding: 0 2px 0 2px;
+    display: table-cell;
+    border-radius: 2px;
+    border-collapse: collapse;
+}
+#con-menu > div > span {
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 5px;
+    border-radius: 0;
+    margin: 0;
+    border-collapse: collapse;
+    display: table-cell;
+}
+#con-menu > div > span:hover {
+    opacity: 1;
+    background-color: rgba(128, 128, 128, 0.2);
+}
+#con-menu[class="hide-menu"] {
     display: none;
 }
 #file-menu {
