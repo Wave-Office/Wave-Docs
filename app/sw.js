@@ -1,9 +1,9 @@
-importScripts('cache-polyfill.js');
+importScripts('');
 
 
 self.addEventListener('install', function(e) {
  e.waitUntil(
-   caches.open('imagineee').then(function(cache) {
+   caches.open('wave-docs').then(function(cache) {
      return cache.addAll([
       '',
       'index.html',
@@ -15,7 +15,7 @@ self.addEventListener('install', function(e) {
       'Favicon/maskable_icon.png',
       'Favicon/android-chrome-512x512.png',
       'icon/imagineee back.svg',
-      'files/wave docs.svg',
+      'files/wave docs.png',
       'wave.png',
       'files/icons/add.svg',
         'files/icons/add_img.svg',

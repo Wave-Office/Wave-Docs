@@ -1,1 +1,1 @@
-console.log("html file")
+console.log("Welcome to wave docs")

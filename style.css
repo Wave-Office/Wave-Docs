@@ -3,3 +3,62 @@
     font-family:  'Space Mono', monospace;
     font: monospace;
 }
+body {
+    margin: 4px auto;
+    padding: 0 1px;
+    max-width: 100ch;
+    margin-top: 30px;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background-color: white; 
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(0, 255, 127); 
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 255, 127, 0.5);
+}
+* {
+    border-radius: 5px;
+    transition-duration: .2s;
+    outline: none;
+}
+a {
+    color: rgb(0, 255, 127);
+}
+header {
+    text-align: center;
+    background-position: center;
+    background-size: 140%;
+}
+#features {
+    box-shadow: 5px 5px 10px rgba(0, 255, 127, 0.3);
+    padding: 20px;
+    width: 75%;
+    margin: 10px auto;
+    background-color: 	rgba(0, 255, 127, 0.1);
+    border: springgreen 1px solid;
+}
+#features:hover{
+    box-shadow: 5px 5px 15px rgba(0, 255, 127, 0.3);
+    padding: 25px;
+    width: 80%;
+}
+#open {
+    padding: 30px;
+    margin: 10px auto;
+    background-color: 	springgreen;
+    border: springgreen 1px solid;
+    box-shadow: 5px 5px 10px rgba(0, 255, 127, 0.3);
+    font-size: x-large;
+    border-radius: 200px;
+    color: black;
+}
+#open:hover{
+    box-shadow: 5px 5px 15px rgba(0, 255, 127, 0.3);
+    padding: 35px;
+}

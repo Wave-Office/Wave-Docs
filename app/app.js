@@ -170,14 +170,15 @@ async function addimage() {
     const imgfile = document.querySelector('#img-file').files[0];
     var img = await toBase64(imgfile)
     page.focus
-    selectRange(thecaret)
+    //selectRange(thecaret.x, thecaret.y)
+    page.focus()
     document.execCommand('insertHTML', false, "<img width='100%' src='" + img  + "'>");
 }
 function addurlimg() {
     closethemodal()
     const img = document.querySelector('#img-url').value;
-    page.focus
-    selectRange(thecaret)
+    page.focus()
+    //selectRange(thecaret)
     document.execCommand('insertHTML', false, "<img width='100%' src='" + img  + "'>");
 }
 function addvid() {
@@ -209,14 +210,15 @@ async function addvideo() {
     closethemodal()
     const vidfile = document.querySelector('#vid-file').files[0];
     var vid =  await toBase64(vidfile)
-    selectRange(thecaret)
+    //selectRange(thecaret)
+    page.focus()
     document.execCommand('insertHTML', false, "<video width='100%' controls><source src='" + vid  + "'>Your Browser Dosn't Support Video</video>");
 }
 function addurlvid() {
     closethemodal()
     const vid = document.querySelector('#vid-url').value;
     page.focus()
-    selectRange(thecaret)
+    //selectRange(thecaret)
     document.execCommand('insertHTML', false, "<video width='100%' controls><source src='" + vid  + "'>Your Browser Dosn't Support Video</video>");
 }
 
@@ -236,7 +238,7 @@ function readMode() {
 setInterval(function() {
     document.getElementById("html-output").value = page.innerHTML
     document.querySelector("title").innerHTML = "Wave Docs | " + document.getElementById("files-name").value
-    caret = getCaretPosition().start
+    caret = getCaretPosition()
 }, 50)
 async function savetofile() {
     if (document.getElementById("files-name").value == "") {
@@ -368,45 +370,30 @@ function Full() {
         }
 }
 function getCaretPosition() {
-    var start = 0;
-    var end = 0;
-    var doc = page.ownerDocument || page.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-        sel = win.getSelection();
-        if (sel.rangeCount > 0) {
-            var range = win.getSelection().getRangeAt(0);
-            var preCaretRange = range.cloneRange();
-            preCaretRange.selectNodeContents(page);
-            preCaretRange.setEnd(range.startContainer, range.startOffset);
-            start = preCaretRange.toString().length;
-            preCaretRange.setEnd(range.endContainer, range.endOffset);
-            end = preCaretRange.toString().length;
-        }
-    } else if ( (sel = doc.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        var preCaretTextRange = doc.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToStart", textRange);
-        start = preCaretTextRange.text.length;
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        end = preCaretTextRange.text.length;
+    let x = 0,
+    y = 0;
+  const isSupported = typeof window.getSelection !== "undefined";
+  if (isSupported) {
+    const selection = window.getSelection();
+    if (selection.rangeCount !== 0) {
+      const range = selection.getRangeAt(0).cloneRange();
+      range.collapse(true);
+      const rect = range.getClientRects()[0];
+      if (rect) {
+        x = rect.left;
+        y = rect.top;
+      }
     }
-    return { start: start, end: end };
+  }
+  return { x, y };
 }
-function selectRange(pos) {
-    page.focus();
-    if (typeof page.selectionStart != "undefined") {
-        page.selectionStart = pos;
-        page.selectionEnd = pos + 1;
-    } else if (document.selection && document.selection.createRange) {
-        // IE branch
-        page.select();
-        var range = document.selection.createRange();
-        range.collapse(true);
-        range.moveEnd("character", pos);
-        range.moveStart("character", pos);
-        range.select();
-    }
+function selectRange(posx, posy) {
+    var el = page;
+    var range = document.createRange();
+    var sel = window.getSelection();
+    range.setStart(el.childNodes[posy], posx);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    el.focus();
 }
